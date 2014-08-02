@@ -126,7 +126,7 @@ public class BloquetoBBConvenioAcima1000000 extends BloquetoBBImpl implements
 	protected String getLDNumeroConvenio() {
 		
 		String convenio = String.format("%07d", Long.valueOf(numeroConvenioBanco));
-		return String.format("%s,%s", convenio.substring(0, 1), convenio.substring(1, 5));
+		return String.format("%s.%s", convenio.substring(0, 1), convenio.substring(1, 5));
 		
 	}
 

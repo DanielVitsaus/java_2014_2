@@ -124,47 +124,7 @@ public abstract class BloquetoBBImpl implements BloquetoBB {
 	private String ldCampo2() {
 		return String.format("%s.%s", getCodigoBarras().substring(24, 29), getCodigoBarras().substring(29, 34));
 	}
-
-	/**
-	 * Calcula o digito verificador do campo
-	 * 
-	 * @param campo
-	 * @return
-	 */
-	protected int digitoVerificadorPorCampo(String campo) {
-		int soma = 0;
-		int parcial = 0;
-		boolean alt = true;
-		for (int i = campo.length()-1; i >= 0; i--) {
-			if(alt){
-				parcial = Integer.parseInt(campo.substring(i)) * 2;
-				while(parcial >= 10){
-						parcial = (parcial % 10)+((int)(parcial / 10));
-				}
-			}else{
-				parcial = Integer.parseInt(campo.substring(i-1 , i));
-			}
-			alt = !alt;
-			soma += parcial;
-		}
-		if((10 - (soma % 10)) == 10){
-			return 0;
-		}else{
-			return 10 - (soma % 10);
-		}
-	}
-
-	/**
-	 * Calcula o digito verificado do código de barras
-	 * 
-	 * @param codigoBarras
-	 * @return
-	 */
-	protected int digitoVerificadorCodigoBarras(String codigoBarras) {
-		// TODO: COMPLETAR
-		return 0;
-	}
-
+	
 	/**
 	 * Campo 1 da Linha Digitável
 	 * 
@@ -183,6 +143,53 @@ public abstract class BloquetoBBImpl implements BloquetoBB {
 
 	}
 
+	/**
+	 * Calcula o digito verificador do campo
+	 * 
+	 * @param campo
+	 * @return
+	 */
+	protected int digitoVerificadorPorCampo(String campo) {
+		int soma = 0;				
+		int parcial = 0;
+		boolean alt = true;
+		
+		for (int i = campo.length(); i > 0; i--) {
+			
+			if (campo.substring(i-1 , i).equals(".") ){
+				i--;				
+			}
+			
+			if(alt){				
+				parcial = Integer.parseInt(campo.substring(i-1 , i)) * 2;				
+				while(parcial >= 10){
+						parcial = (parcial % 10)+((int)(parcial / 10));
+				}
+			}else{
+				parcial = Integer.parseInt(campo.substring(i-1 , i));
+			}
+			alt = !alt;
+			soma += parcial;
+			
+		}		
+		if((10 - (soma % 10)) == 10){
+			return 0;
+		}else{
+			return 10 - (soma % 10);
+		}
+	}
+
+	/**
+	 * Calcula o digito verificado do código de barras
+	 * 
+	 * @param codigoBarras
+	 * @return
+	 */
+	protected int digitoVerificadorCodigoBarras(String codigoBarras) {
+		// TODO: COMPLETAR
+		return 0;
+	}
+
 	public String getLinhaDigitavel() {
 
 		init();
@@ -192,14 +199,17 @@ public abstract class BloquetoBBImpl implements BloquetoBB {
 		buffer.append(digitoVerificadorPorCampo(ldCampo1()));
 		buffer.append(" ");
 		
-		buffer.append(ldCampo2());
-		buffer.append(digitoVerificadorPorCampo(ldCampo2()));
+		buffer.append(ldCampo2());		
+		buffer.append(digitoVerificadorPorCampo(ldCampo2()));		
 		buffer.append(" ");
+		
 		buffer.append(ldCampo3());
 		buffer.append(digitoVerificadorPorCampo(ldCampo3()));
 		buffer.append(" ");
+		
 		buffer.append(ldCampo4());
 		buffer.append(" ");
+		
 		buffer.append(ldCampo5());
 		
 		return buffer.toString();

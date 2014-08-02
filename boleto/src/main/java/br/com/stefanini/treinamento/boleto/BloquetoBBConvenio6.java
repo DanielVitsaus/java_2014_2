@@ -106,7 +106,7 @@ public class BloquetoBBConvenio6 extends BloquetoBBImpl implements BloquetoBB {
 	protected String getLDNumeroConvenio() {
 		
 		String convenio = String.format("%06d", Long.valueOf(numeroConvenioBanco));
-		return String.format("%s,%s", convenio.substring(0, 1), convenio.substring(1, 5));
+		return String.format("%s.%s", convenio.substring(0, 1), convenio.substring(1, 5));
 
 	}
 
